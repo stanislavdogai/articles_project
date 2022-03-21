@@ -25,12 +25,28 @@
     <h1>{{ article.author }}</h1>
     <h3>{{ article.title }}</h3>
     <p>{{ article.content }}</p>
+    <p id="{{ article.id }}">Лайки: {{ article.users.count }}</p>
+    {% if user.is_authenticated %}
+    {% if request.user not in article.users.all %}
+    <button id="btn" onclick="like_article(event)" data-id="{{ article.id }}" data-article-url="{% url 'webapp:article_like_view' article.pk %}">like</button>
+    {% else %}
+    <button id="btn" onclick="like_article(event)" data-id="{{ article.id }}" data-article-url="{% url 'webapp:article_like_view' article.pk %}">unlike</button>
+    {% endif %}
+    {% endif %}
     <br>
     <h3>Комментарии</h3>
     {% for comment in comments %}
-        <span>{{ forloop.counter }}</span>
+{#        <span>{{ forloop.counter }}</span>#}
         <p>{{ comment.author }}</p>
         <p>{{ comment.content }}</p>
+        <p id="comment_{{ comment.id }}">Лайки: {{ comment.users.count }}</p>
+        {% if user.is_authenticated %}
+        {% if request.user not in comments.users.all %}
+        <button id="btn" onclick="comment_like(event)" data-id="comment_{{ comment.id }}" data-article-url="{% url 'webapp:comment_like_view' comment.pk %}">like</button>
+        {% else %}
+        <button id="btn" onclick="comment_like(event)" data-id="comment_{{ comment.id }}" data-article-url="{% url 'webapp:comment_like_view' comment.pk %}">unlike</button>
+        {% endif %}
+        {% endif %}
 
         {% if perms.webapp.change_comment or user == commnet.author %}
             <p><a href="{% url "webapp:comment_update_view" comment.pk %}">Изменить</a></p>

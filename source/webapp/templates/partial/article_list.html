@@ -17,7 +17,14 @@
     {% if perms.webapp.delete_article %}
         <p><a href="{% url "webapp:article_delete_view" article.pk %}">Удалить</a></p>
     {% endif %}
-
+    <p id="{{ article.id }}">Лайки: {{ article.users.count }}</p>
+    {% if user.is_authenticated %}
+    {% if request.user not in article.users.all %}
+    <button id="btn" onclick="like_article(event)" data-id="{{ article.id }}" data-article-url="{% url 'webapp:article_like_view' article.pk %}">like</button>
+    {% else %}
+    <button id="btn" onclick="like_article(event)" data-id="{{ article.id }}" data-article-url="{% url 'webapp:article_like_view' article.pk %}">unlike</button>
+    {% endif %}
+    {% endif %}
 {% empty %}
     <p>Статьи не найдены...</p>
 {% endfor %}

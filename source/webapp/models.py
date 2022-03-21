@@ -29,6 +29,7 @@ class Article(BaseModel):
         default=1,
         verbose_name="Автор",
     )
+    users = models.ManyToManyField(get_user_model(), related_name='articles_likes')
 
     def get_absolute_url(self):
         return reverse('webapp:article_view', kwargs={'pk': self.pk})
@@ -70,6 +71,7 @@ class Comment(BaseModel):
                                 related_name="comments",
                                 verbose_name="Статья",
                                 )
+    users = models.ManyToManyField(get_user_model(), related_name='comments_likes')
 
     class Meta:
         db_table = 'comments'
