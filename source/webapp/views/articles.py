@@ -8,6 +8,10 @@ from django.views import View
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404, redirect
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from api_v2.serializers import ArticleSerializer
 from ..forms import ArticleForm, ArticleDeleteForm
 from ..models import Article
 from .base import SearchView
@@ -54,6 +58,15 @@ class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
 
     def has_permission(self):
         return super().has_permission() or self.request.user == self.get_object().author
+
+# class ArticleDeleteView(APIView):
+#     def delete(self, request, *args, **kwargs):
+#         serializer = ArticleSerializer(data=request.data)
+#         if serializer.is_valid():
+#             article = serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=400)
 
 
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
