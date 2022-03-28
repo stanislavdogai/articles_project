@@ -6,12 +6,8 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from api_v2.serializers import ArticleSerializer
 from ..forms import ArticleForm, ArticleDeleteForm
 from ..models import Article
 from .base import SearchView

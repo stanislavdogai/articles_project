@@ -39,3 +39,4 @@ let comment_like = async function (event){
     let p = document.getElementById(`${p_id}`)
     p.innerText = `Лайки: ${data.comment}`
 }
+
